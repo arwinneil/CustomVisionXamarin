@@ -4,11 +4,42 @@
              xmlns:local="clr-namespace:CustomVisionDemo"
              x:Class="CustomVisionDemo.MainPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Button Text="Press Me" Pressed="TakePhoto"></Button>
+        <StackLayout Padding="15">
+            <Button Text="Predict Drink" Clicked="TakePhoto"></Button>
 
-            <Label x:Name="Result" FontSize="80"></Label>
-            
+            <Frame x:Name="Status" HasShadow="True" IsVisible="False" Padding="0">
+                <StackLayout Orientation="Horizontal" Padding="0">
+                    <Image x:Name="StatusImage" HeightRequest="200" WidthRequest="200" Aspect="AspectFill"></Image>
+                    <Label VerticalOptions="Center" x:Name="StatusLabel" FontSize="30" Text="Analysing..."></Label>
+                    <ActivityIndicator  VerticalOptions="Center" x:Name="Activity" ></ActivityIndicator>
+                </StackLayout>
+            </Frame>
+
+            <Frame HasShadow="True" x:Name="StrawberryFrame" IsVisible="False" >
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="strawberrymilk.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
+                    <StackLayout>
+                        <Label FontSize="40" Text="Strawberry Milk" ></Label>
+                        <Label  Text="If you have a sweet tooth and have always known strawberry flavour is the best, then we have the drink for you! This strawberry milk drink is a deliciously sweet, flavourful pick-me-up, with the added convenience of being in a can. Best served straight out of the fridge."></Label>
+                        <Button Text="Buy now"  Margin="15,5,15,5" BackgroundColor="#f2c100" TextColor="White"></Button>
+                    </StackLayout>
+                </StackLayout> 
+            </Frame>
+
+
+
+
+            <Frame HasShadow="True" x:Name="MelonFrame" IsVisible="False" >
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="melonmilk.jpg" WidthRequest="100"></Image>
+                    <StackLayout>
+                        <Label FontSize="40" Text="Melon Milk" ></Label>
+                        <Label  Text="Love melon pan, melon gummy and melon soda? Then we have the drink for you! This melon milk drink is a can of deliciously sweet, deliciously melon-y awesomeness. Best served straight out of the fridge."></Label>
+                        <Button Text="Buy now"  Margin="15,5,15,5" BackgroundColor="#f2c100" TextColor="White"></Button>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

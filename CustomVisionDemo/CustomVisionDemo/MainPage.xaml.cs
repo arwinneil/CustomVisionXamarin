@@ -23,11 +23,18 @@ namespace CustomVisionDemo
 
         async private void TakePhoto(object sender, EventArgs e)
         {
+            InitialiseContent();
+          
             Plugin.Media.Abstractions.StoreCameraMediaOptions options = new Plugin.Media.Abstractions.StoreCameraMediaOptions();
 
-            var image = await CrossMedia.Current.TakePhotoAsync(options);
+            
 
+            var image = await CrossMedia.Current.TakePhotoAsync(options);
+            StatusImage.Source = image.Path;
             RequestPrediction(image.Path);
+            Status.IsVisible = true;
+            StatusLabel.Text = "Analysing...";
+            Activity.IsRunning = true;
         }
 
         public async void RequestPrediction(string imageFilePath)
@@ -74,8 +81,32 @@ namespace CustomVisionDemo
         public void DeserialiseResults(string json)
         {
             results = JsonConvert.DeserializeObject<PredictionResponse>(json);
+            UpdateScreen();
 
-            Result.Text ="Prediction: "+  results.Predictions[0].Tag;
+        }
+
+
+        void UpdateScreen()
+        {
+           
+
+            if (results.Predictions[0].Tag == "Strawberry Milk")
+                StrawberryFrame.IsVisible = true;
+            else if (results.Predictions[0].Tag == "Melon Milk")
+                MelonFrame.IsVisible = true;
+            Activity.IsRunning = false;
+
+            StatusLabel.Text ="Score : " +results.Predictions[0].Probability.ToString();
+        }
+
+
+        public void InitialiseContent()
+        {
+
+            MelonFrame.IsVisible = false;
+            StrawberryFrame.IsVisible = false;
+
+
         }
     }
 }
