@@ -12,7 +12,7 @@ namespace CustomVisionDemo
     {
         private const string subscriptionKey = "dffd51fdbd3f464da21433e7abc36ae2";
 
-        private const string uriBase = "https://southcentralus.api.cognitive.microsoft.com/customvision/v1.1/Prediction/53277e9c-6b11-4be2-91ca-040f6773e344/image?iterationId=b3050ece-2182-4e99-b3d1-418e12fc6553";
+        private const string uriBase = "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/53277e9c-6b11-4be2-91ca-040f6773e344/image?";
 
         private PredictionResponse results;
 
@@ -26,8 +26,6 @@ namespace CustomVisionDemo
             InitialiseContent();
           
             Plugin.Media.Abstractions.StoreCameraMediaOptions options = new Plugin.Media.Abstractions.StoreCameraMediaOptions();
-
-            
 
             var image = await CrossMedia.Current.TakePhotoAsync(options);
             StatusImage.Source = image.Path;
@@ -62,16 +60,12 @@ namespace CustomVisionDemo
                 string contentString = await response.Content.ReadAsStringAsync();
 
                 DeserialiseResults(contentString);
+                UpdateScreen();
             }
         }
 
         private static byte[] GetImageAsByteArray(string imageFilePath)
         {
-            /// <summary>
-            /// Returns the contents of the specified file as a byte array.
-            /// </summary>
-            /// <param name="imageFilePath">The image file to read.</param>
-            /// <returns>The byte array of the image data.</returns>
 
             FileStream fileStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
             BinaryReader binaryReader = new BinaryReader(fileStream);
@@ -81,7 +75,6 @@ namespace CustomVisionDemo
         public void DeserialiseResults(string json)
         {
             results = JsonConvert.DeserializeObject<PredictionResponse>(json);
-            UpdateScreen();
 
         }
 
@@ -89,10 +82,9 @@ namespace CustomVisionDemo
         void UpdateScreen()
         {
            
-
-            if (results.Predictions[0].Tag == "Strawberry Milk")
+            if (results.Predictions[0].TagName == "Strawberry Milk")
                 StrawberryFrame.IsVisible = true;
-            else if (results.Predictions[0].Tag == "Melon Milk")
+            else if (results.Predictions[0].TagName == "Melon Milk")
                 MelonFrame.IsVisible = true;
             Activity.IsRunning = false;
 
